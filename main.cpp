@@ -28,4 +28,11 @@ public:
         edges[keys[start]].push_back(keys[end]);
         return true;
     }
+    bool link(int start, int end) {
+        if(start >= nodes.size() || end >= nodes.size())
+            return false;
+        edges[start].push_back(end);
+
+        return true;
+    }
 };
