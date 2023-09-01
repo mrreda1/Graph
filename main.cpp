@@ -4,10 +4,18 @@
 
 using namespace std;
 
+class node {
+public:
+    string name;
+    node(string name) {
+        this -> name = name;
+    }
+};
+
 class graph {
 private:
     vector<vector<int>> edges;
-    vector<string> nodes;
+    vector<node*> nodes;
     map<string, int> keys;
 
 public:
@@ -15,7 +23,8 @@ public:
 
     int insert(string name) {
         if(keys.count(name) < 0) { 
-            nodes.push_back(name);
+            node* new_node = new node(name);
+            nodes.push_back(new_node);
             edges.push_back({});
             keys.insert(pair<string, int>(name, nodes.size() - 1));
             return nodes.size() - 1;
@@ -32,7 +41,12 @@ public:
         if(start >= nodes.size() || end >= nodes.size())
             return false;
         edges[start].push_back(end);
-
         return true;
+    }
+    void connections(int node) {
+        if(node >= nodes.size())
+            return;
+        for(int node : edges[node])
+            cout << node << ' ';
     }
 };
