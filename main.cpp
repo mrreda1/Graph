@@ -22,7 +22,7 @@ public:
     graph() {}
 
     int insert(string name) {
-        if(keys.count(name) < 0) { 
+        if(keys.find(name) == keys.end()) {
             node* new_node = new node(name);
             nodes.push_back(new_node);
             edges.push_back({});
@@ -32,14 +32,22 @@ public:
         return -1;
     }
     bool link(string start, string end) {
-        if(keys.count(start) < 0 || keys.count(end) < 0)
+        if(keys.find(start) == keys.end() || keys.find(end) == keys.end() || start == end)
             return false;
+
+        for(int node : edges[keys[start]])
+            if(node == keys[end]) return false;
+
         edges[keys[start]].push_back(keys[end]);
         return true;
     }
     bool link(int start, int end) {
-        if(start >= nodes.size() || end >= nodes.size())
+        if(start >= nodes.size() || end >= nodes.size() || start == end)
             return false;
+
+        for(int node : edges[start])
+            if(node == end) return false;
+
         edges[start].push_back(end);
         return true;
     }
@@ -47,6 +55,6 @@ public:
         if(node >= nodes.size())
             return;
         for(int node : edges[node])
-            cout << node << ' ';
+            cout << nodes[node] -> name << ' ';
     }
 };
