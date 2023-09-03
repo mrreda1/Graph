@@ -40,10 +40,26 @@ public:
         edges[keys[start]].push_back(keys[end]);
         return true;
     }
+    bool link(int start, int end) {
+        if(start >= nodes.size() || end >= nodes.size() || start == end)
+            return false;
+
+        for(int node : edges[start])
+            if(node == end) return false;
+
+        edges[start].push_back(end);
+        return true;
+    }
     void connections(std::string name) {
         if(keys.find(name) == keys.end())
             return;
         for(int node : edges[keys[name]])
+            std::cout << nodes[node] -> name << ' ';
+    }
+    void connections(int node) {
+        if(node >= nodes.size())
+            return;
+        for(int node : edges[node])
             std::cout << nodes[node] -> name << ' ';
     }
     int shortest_path(std::string start, std::string end) {
@@ -69,21 +85,5 @@ public:
             }
         }
         return -1;
-    }
-    bool link(int start, int end) {
-        if(start >= nodes.size() || end >= nodes.size() || start == end)
-            return false;
-
-        for(int node : edges[start])
-            if(node == end) return false;
-
-        edges[start].push_back(end);
-        return true;
-    }
-    void connections(int node) {
-        if(node >= nodes.size())
-            return;
-        for(int node : edges[node])
-            std::cout << nodes[node] -> name << ' ';
     }
 };

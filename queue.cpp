@@ -1,7 +1,3 @@
-#include <iostream>
-
-using namespace std;
-
 template<typename T>
 class node {
 public:
@@ -10,7 +6,7 @@ public:
 
     node(T Value) {
         this->value = Value;
-        this->next = NULL;
+        this->next = 0;
     }
 };
 
@@ -34,36 +30,36 @@ private:
 public:
     queue_ds() {
         this->length = 0;
-        this->head = this->tail = NULL;
+        this->head = this->tail = 0;
     }
     unsigned long long size() {
         return length;
     }
     bool empty() {
-        if( head == NULL ) return true;
+        if( head == 0 ) return true;
         return false;
     }
     T front() {
-        if(head == NULL) return 0;
+        if(head == 0) return 0;
         return head -> value;
     }
     T back() {
-        if(head == NULL) return 0;
+        if(head == 0) return 0;
         return tail -> value;
     }
     T pop() {
-        if(head == NULL) return 0;
+        if(head == 0) return 0;
         node<T> *temp_node = head;
         T temp_value = head -> value;
         head = head -> next;
-        if(head == NULL) tail = NULL;
+        if(head == 0) tail = 0;
         delete(temp_node);
         length--;
         return temp_value;
     }
     void push(T Value) {
         node<T> *new_node = new node(Value);
-        if(tail == NULL) head = new_node;
+        if(tail == 0) head = new_node;
         else tail -> next = new_node;
         tail = new_node;
         length++;
