@@ -60,6 +60,37 @@ void graph::link(size_t src, size_t dst, size_t weight) {
 		edges[src].insert({dst, weight});
 	}
 }
+void graph::unlink(std::string src, std::string dst) {
+	if (keys.find(src) == keys.end() || keys.find(dst) == keys.end())
+		return;
+
+	graph::unlink(keys[src], keys[dst]);
+}
+void graph::unlink(size_t src, size_t dst) {
+	if (src >= nodes.size() || dst >= nodes.size() ||
+		!(nodes[src]->isActive() && nodes[dst]->isActive()))
+		return;
+
+	edges[src].erase(dst);
+}
+void graph::removeNode(std::string name) {
+	if (keys.find(name) != keys.end()) {
+		removeNode(keys[name]);
+	}
+}
+void graph::removeNode(size_t node) {
+	if (node >= nodes.size() || !nodes[node]->isActive()) {
+		return;
+	}
+
+	edges[node].clear();
+
+	for (auto m : edges) {
+		m.erase(node);
+	}
+
+	nodes[node]->disable();
+}
 
 std::vector<std::pair<Gnode *, size_t>> graph::connections(std::string name) {
 	if (keys.find(name) != keys.end()) {

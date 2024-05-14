@@ -32,6 +32,10 @@ class graph {
 	void insert(std::string name);
 	void link(std::string start, std::string end, size_t weight);
 	void link(size_t start, size_t end, size_t weight);
+	void unlink(std::string start, std::string end);
+	void unlink(size_t start, size_t end);
+	void removeNode(std::string);
+	void removeNode(size_t);
 	std::vector<std::pair<Gnode *, size_t>> connections(std::string name);
 	std::vector<std::pair<Gnode *, size_t>> connections(ssize_t node);
 };
