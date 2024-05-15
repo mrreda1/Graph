@@ -1,5 +1,5 @@
-cc="g++"
-flags="-g3"
+cc=g++
+flags=-Og -ggdb
 
 build: *.cpp
 	$(cc) *.cpp -o run

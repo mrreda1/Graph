@@ -1,6 +1,7 @@
 #ifndef GRAPH_HPP
 #define GRAPH_HPP
 
+#include <cstring>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -9,35 +10,43 @@ class Gnode {
   private:
 	static size_t counter;
 	size_t id;
-	std::string name;
+	char *name;
 	bool active;
 
   public:
-	Gnode(std::string name);
+	Gnode(const char *);
 	size_t getID();
 	void activate();
 	void disable();
 	bool isActive();
-	std::string getName();
+	const char *getName();
+};
+
+struct cmp_str
+{
+   bool operator()(char const *a, char const *b) const
+   {
+      return std::strcmp(a, b) < 0;
+   }
 };
 
 class graph {
   private:
 	std::vector<std::map<size_t, size_t>> edges;
 	std::vector<Gnode *> nodes;
-	std::map<std::string, size_t> keys;
+	std::map<const char *, size_t, cmp_str> keys;
 
   public:
 	graph();
-	void insert(std::string name);
-	void link(std::string start, std::string end, size_t weight);
-	void link(size_t start, size_t end, size_t weight);
-	void unlink(std::string start, std::string end);
-	void unlink(size_t start, size_t end);
-	void removeNode(std::string);
+	void insert(const char *);
+	void link(const char *, const char *, size_t);
+	void link(size_t, size_t, size_t);
+	void unlink(const char *, const char *);
+	void unlink(size_t, size_t);
+	void removeNode(const char *);
 	void removeNode(size_t);
-	std::vector<std::pair<Gnode *, size_t>> connections(std::string name);
-	std::vector<std::pair<Gnode *, size_t>> connections(ssize_t node);
+	std::vector<std::pair<Gnode *, size_t>> connections(const char *);
+	std::vector<std::pair<Gnode *, size_t>> connections(ssize_t);
 };
 
 #endif // !GRAPH_HPP

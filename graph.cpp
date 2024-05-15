@@ -3,16 +3,17 @@
 // Graph node
 size_t Gnode::counter = 0;
 
-Gnode::Gnode(std::string name) {
+Gnode::Gnode(const char* name) {
 	this->id = Gnode::counter++;
-	this->name = name;
+	this->name = (char*) malloc(1024*sizeof(char));
+    strcpy(this->name, name);
 	this->active = true;
 }
 
 size_t Gnode::getID() {
 	return this->id;
 }
-std::string Gnode::getName() {
+const char* Gnode::getName() {
 	return this->name;
 }
 bool Gnode::isActive() {
@@ -30,7 +31,7 @@ void Gnode::disable() {
 graph::graph() {
 }
 
-void graph::insert(std::string name) {
+void graph::insert(const char* name) {
 	if (keys.find(name) != keys.end()) {
 		nodes[keys[name]]->activate();
 		return;
@@ -44,7 +45,7 @@ void graph::insert(std::string name) {
 	keys.insert({name, new_node->getID()});
 }
 
-void graph::link(std::string src, std::string dst, size_t weight) {
+void graph::link(const char* src, const char* dst, size_t weight) {
 	if (keys.find(src) == keys.end() || keys.find(dst) == keys.end())
 		return;
 
@@ -60,7 +61,7 @@ void graph::link(size_t src, size_t dst, size_t weight) {
 		edges[src].insert({dst, weight});
 	}
 }
-void graph::unlink(std::string src, std::string dst) {
+void graph::unlink(const char* src, const char* dst) {
 	if (keys.find(src) == keys.end() || keys.find(dst) == keys.end())
 		return;
 
@@ -73,7 +74,7 @@ void graph::unlink(size_t src, size_t dst) {
 
 	edges[src].erase(dst);
 }
-void graph::removeNode(std::string name) {
+void graph::removeNode(const char* name) {
 	if (keys.find(name) != keys.end()) {
 		removeNode(keys[name]);
 	}
@@ -92,7 +93,7 @@ void graph::removeNode(size_t node) {
 	nodes[node]->disable();
 }
 
-std::vector<std::pair<Gnode *, size_t>> graph::connections(std::string name) {
+std::vector<std::pair<Gnode *, size_t>> graph::connections(const char* name) {
 	if (keys.find(name) != keys.end()) {
 		return connections(keys[name]);
 	}
